@@ -2,12 +2,20 @@ package main
 
 import (
 	"strings"
+
+	"github.com/rlekni/go-pokedex/internal/pokeapi"
 )
 
 func ClearInput(text string) []string {
 	text = strings.ToLower(text)
 	words := strings.Fields(text)
 	return words
+}
+
+type config struct {
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
 }
 
 // var commands =
@@ -22,6 +30,16 @@ func getCommands() map[string]cliCommand {
 			name:        "help",
 			description: "Displays a help message",
 			callback:    commandHelp,
+		},
+		"map": {
+			name:        "map",
+			description: "Shows next 20 location areas",
+			callback:    commandMap,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Shows previous 20 location areas",
+			callback:    commandMapb,
 		},
 	}
 }
