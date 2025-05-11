@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	pokeClient := pokeapi.NewClient(5 * time.Second)
+	pokeClient := pokeapi.NewClient(5*time.Second, 5*time.Minute)
 	cfg := &config{
 		pokeapiClient: pokeClient,
 	}
@@ -19,13 +19,17 @@ func main() {
 	for {
 		fmt.Print("Pokedex > ")
 		scanner.Scan()
-		cleanedInput := ClearInput(scanner.Text())
-		command, ok := getCommands()[cleanedInput[0]]
+		words := ClearInput(scanner.Text())
+		command, ok := getCommands()[words[0]]
+		args := []string{}
+		if len(words) > 1 {
+			args = words[1:]
+		}
 		if !ok {
 			fmt.Println("Unknown command")
 			continue
 		}
-		err := command.callback(cfg)
+		err := command.callback(cfg, args...)
 		if err != nil {
 			fmt.Println(err)
 		}
