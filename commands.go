@@ -137,3 +137,11 @@ func commandInspect(cfg *config, args ...string) error {
 	}
 	return nil
 }
+
+func commandPokedex(cfg *config, args ...string) error {
+	fmt.Println("Your Pokedex:")
+	for _, p := range cfg.caughtPokemons {
+		fmt.Printf(" - %s\n", p.Name)
+	}
+	return nil
+}
