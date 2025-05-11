@@ -13,8 +13,14 @@ func main() {
 		fmt.Print("Pokedex > ")
 		scanner.Scan()
 		cleanedInput := ClearInput(scanner.Text())
-		if len(cleanedInput) > 0 {
-			fmt.Println("Your command was:", cleanedInput[0])
+		command, ok := getCommands()[cleanedInput[0]]
+		if !ok {
+			fmt.Println("Unknown command")
+			continue
+		}
+		err := command.callback()
+		if err != nil {
+			fmt.Println(err)
 		}
 	}
 }
